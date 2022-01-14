@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+    <link rel="manifest" href="./resources/square.webmanifest">
+    <link rel="icon" type="image/x-icon" href="resources/favicon.png">
+    <link rel="stylesheet" href="resources/main.css">
+
+    <title>FGSFDS</title>
+
+    <script src="scripts/index.js" type="module"></script>
+    <script src="scripts/utility/service-worker-loader.js"></script>
+</head>
+<body>
+<div id="loader"></div>
+<script>
+    registerServiceWorker()
+    serviceWorkerLoader("loader")
+</script>
+
+</body>
+</html>
