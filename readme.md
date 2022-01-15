@@ -1,6 +1,8 @@
 # FGSFDS
 
-This is a simple sequencing game I came up with. It's simple and can be played on paper, or in chat. There's no board or field, just a sequence of letters players expand. 
+This is a simple sequencing game I came up with. It's simple and can be played on paper, or in chat. There's no board or field, just a sequence of letters players expand.
+
+Live version available at http://seihoukei.games/fgsfds/
 
 ## Rules
 
