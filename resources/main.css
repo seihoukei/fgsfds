@@ -104,25 +104,25 @@ html, body {
 }
 
 .sequence {
-    font : 10vmin "Share Tech Mono";
+    font : 7vmin "Share Tech Mono";
     word-wrap: break-word;
     max-width: 80vmin;
 }
 
 .player1 .letter {
-    background: #110022;
-}
-
-.player1 .letter:hover {
-    background: #110033;
-}
-
-.player2 .letter {
     background: #001122;
 }
 
-.player2 .letter:hover {
+.player1 .letter:hover {
     background: #001133;
+}
+
+.player2 .letter {
+    background: #110022;
+}
+
+.player2 .letter:hover {
+    background: #110033;
 }
 
 .letter {
@@ -168,11 +168,77 @@ html, body {
     background-color: #000033;
 }
 
+.button.active {
+    cursor: default;
+    background-color: #000055;
+}
+
+.button.active:hover {
+    background-color: #000055;
+}
+
 .player {
     font-size: 4vmin;
     white-space: pre;
     text-align : center;
     padding-top : 5vmin;
     height : 10vmin;
+}
 
+.dialog-holder {
+    position: absolute;
+    left : 0;
+    top : 0;
+    width : 100vw;
+    height : 100vh;
+    background-color: #000000DD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialog {
+    display: flex;
+    flex-direction: column;
+    background-color: #000011;
+}
+
+.dialog-title {
+    text-align: center;
+    font-size: 5vmin;
+    padding : 1vmin;
+}
+
+.dialog-line {
+    display : flex;
+    align-items: center;
+    padding : 1vmin;
+}
+
+.dialog-line.centered {
+    justify-content: center;
+}
+
+.dialog-line.padded {
+    padding-top : 5vmin;
+}
+
+.dialog-line.unpadded {
+    margin-top : -2vmin;
+}
+
+.dialog-caption {
+    font-size: 3vmin;
+    width : 30vmin;
+    padding : 1vmin;
+    text-align:right;
+}
+
+.dialog-input {
+    font-size: 3vmin;
+    width : 30vmin;
+    padding : 1vmin;
+    background-color: #000022;
+    border : none;
+    color : #CCEEFF;
 }

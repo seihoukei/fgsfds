@@ -9,7 +9,7 @@ window.onload = async () => {
     window.ui = new UI()
     window.newGame = newGame
 
-    const options = Game.DEFAULT_OPTIONS
+    const options = Object.assign({}, Game.DEFAULT_OPTIONS)
 
     try {
         if (localStorage.fgsfds_options !== undefined) {
@@ -21,7 +21,7 @@ window.onload = async () => {
     }
 }
 
-function newGame(start, size) {
-    window.game = new Game(start, size)
+function newGame(options) {
+    window.game = new Game(options)
     ui.showGame(game)
 }

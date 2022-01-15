@@ -2,23 +2,8 @@ export default class Game{
     static DEFAULT_OPTIONS = {
         start : "FGSFDS",
         letters : "SDFG",
-        strategic : false,
-        bots : [0,0],
-    }
-
-    static TEMPLATES = {
-        "FGSFDS" : {
-            start : "FGSFDS",
-            letters : "SDFG",
-        },
-        "F (Three letters)" : {
-            start : "F",
-            letters : "SDF",
-        },
-        "F (Four letters)" : {
-            start : "F",
-            letters : "SDFG",
-        },
+        strategic : true,
+        bots : [0,1],
     }
 
     constructor(options) {
@@ -33,11 +18,10 @@ export default class Game{
         this.getValidLetters()
     }
 
-    getRepeat(letter = null) {
-        let sequence = this.sequence
+    getRepeat(letter = null, sequence = this.sequence) {
         if (letter === null) {
-            letter = this.sequence.slice(-1)
-            sequence = this.sequence.slice(0, -1)
+            letter = sequence.slice(-1)
+            sequence = sequence.slice(0, -1)
         }
 
         const last = sequence.lastIndexOf(letter)
@@ -76,6 +60,8 @@ export default class Game{
         if (this.valid === "")
             this.ended = true
 
+        this.getBotMove(this.options.bots[this.player])
+
         return true
     }
 
@@ -96,17 +82,80 @@ export default class Game{
     }
 
     getState(next = null) {
-        if (next === this.sequence.slice(-1)) {
-            return [this.sequence, null, "_"]
-        }
-
         if (this.options.strategic) {
+            if (next === this.sequence.slice(-1)) {
+                return [this.sequence, null, "_"]
+            }
+
             const repeat = this.getRepeat(next)
             return [this.sequence, repeat, next ?? "_"]
         } else {
             if (this.ended)
                 return [this.sequence, this.repeat, ""]
+
+            if (next === this.sequence.slice(-1)) {
+                return [this.sequence, null, "_"]
+            }
+
             return [this.sequence, null, next ?? "_"]
         }
+    }
+
+    getBotMove(level) {
+        if (level === 0 || this.ended)
+            return false
+
+        if (level === 1) {
+            return this.advance(this.valid[Math.random() * this.valid.length | 0])
+        }
+
+        const maxDepth = level * 4 - 7
+
+        let bestTurn = ""
+        let maxScore = -1
+        for (let letter of this.valid) {
+            let score = this.evaluateMove(maxDepth, this.sequence, letter, true)
+//            console.log(this.sequence, letter, score)
+            if (score > maxScore || score === maxScore && Math.random() > 0.5) {
+                bestTurn = letter
+                maxScore = score
+            }
+        }
+        if (bestTurn !== "") {
+//            console.log(bestTurn, maxScore)
+            return this.advance(bestTurn)
+        } else
+            return this.advance(this.valid[Math.random() * this.valid.length | 0])
+    }
+
+    evaluateMove(depth, sequence, letter, me = true) {
+        if (this.getRepeat(letter, sequence))
+            return me ? -1 : 1
+
+        if (depth <= 0)
+            return 0
+
+        let bestScore = null
+
+        sequence = sequence + letter
+
+        for (let next of this.letters) {
+            if (letter === next)
+                continue
+
+            let score = this.evaluateMove(depth - 1, sequence, next, !me)
+//            console.log(sequence, next, score)
+
+            if (bestScore === null)
+                bestScore = score
+
+            if (!me && score > bestScore)
+                bestScore = score
+
+            if (me && score < bestScore)
+                bestScore = score
+        }
+
+        return bestScore
     }
 }
